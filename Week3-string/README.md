@@ -2,7 +2,7 @@
 
 
 ##Problem1: [Integer Inquiry](http://poj.org/problem?id=1503)
-![Interger_Inquiry](/Week3-string/Images/Integer_Inquiry.png)
+![Interger_Inquiry](Images/Integer_Inquiry.png)
 ###Description
 
 One of the first users of BIT's new supercomputer was Chip Diller. He extended his exploration of powers of 3 to go from 0 to 333 and he explored taking various sums of those numbers. 
@@ -28,7 +28,7 @@ Your program should output the sum of the VeryLongIntegers given in the input.
 	370370367037037036703703703670
 
 ##Problem2: [Oulipo](http://poj.org/problem?id=3461)
-![Oulipo](/Week3-string/Images/Oulipo.png)
+![Oulipo](Images/Oulipo.png)
 
 ###Description
 
@@ -70,7 +70,7 @@ AVERDXIVYERDIAN
 ```
 
 ##Problem3: [Travel Games](http://poj.org/problem?id=2138)
-![Travel Games](/Week3-string/Images/Travel_Games.png)
+![Travel Games](Images/Travel_Games.png)
 ###Description
 
 The cows are taking a trip to the lakes in Minnesota. Like everyone else, they are bored and are playing "travel games" to pass the time away. 
@@ -108,7 +108,7 @@ chorale
 ```
 
 ##Program4: [Palindrome](http://poj.org/problem?id=1159)
-![Palindrome](/Week3-string/Images/Palindrome.png)
+![Palindrome](Images/Palindrome.png)
 ###Description
 
 A palindrome is a symmetrical string, that is, a string read identically from left to right as well as from right to left. You are to write a program which, given a string, determines the minimal number of characters to be inserted into the string in order to obtain a palindrome. 
