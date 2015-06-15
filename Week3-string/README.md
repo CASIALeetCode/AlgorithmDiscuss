@@ -1,14 +1,14 @@
-#Week 3 Problems(string)
+# Week 3 Problems(string)
 
 
-##Problem1: [Integer Inquiry](http://poj.org/problem?id=1503)
+## Problem1: [Integer Inquiry](http://poj.org/problem?id=1503)
 ![Interger_Inquiry](Images/Integer_Inquiry.png)
-###Description
+### Description
 
 One of the first users of BIT's new supercomputer was Chip Diller. He extended his exploration of powers of 3 to go from 0 to 333 and he explored taking various sums of those numbers. 
 \`\`This supercomputer is great,'' remarked Chip. \`\`I only wish Timothy were here to see these results.'' (Chip moved to a new apartment, once one became available on the third floor of the Lemon Sky apartments on Third Street.) 
 
-###Input
+### Input
 
 The input will consist of at most 100 lines of text, each of which contains a single VeryLongInteger. Each VeryLongInteger will be 100 or fewer characters in length, and will only contain digits (no VeryLongInteger will be negative). 
 
@@ -17,20 +17,20 @@ Output
 
 Your program should output the sum of the VeryLongIntegers given in the input.
 
-###Sample Input
+### Sample Input
 	123456789012345678901234567890
 	123456789012345678901234567890
 	123456789012345678901234567890
 	0
 
-###Sample Output
+### Sample Output
 
 	370370367037037036703703703670
 
-##Problem2: [Oulipo](http://poj.org/problem?id=3461)
+## Problem2: [Oulipo](http://poj.org/problem?id=3461)
 ![Oulipo](Images/Oulipo.png)
 
-###Description
+### Description
 
 The French author Georges Perec (1936–1982) once wrote a book, La disparition, without the letter 'e'. He was a member of the Oulipo group. A quote from the book:
 
@@ -40,7 +40,7 @@ Perec would probably have scored high (or rather, low) in the following contest.
 
 So we want to quickly find out how often a word, i.e., a given string, occurs in a text. More formally: given the alphabet {'A', 'B', 'C', …, 'Z'} and two finite strings over that alphabet, a word W and a text T, count the number of occurrences of W in T. All the consecutive characters of W must exactly match consecutive characters of T. Occurrences may overlap.
 
-###Input
+### Input
 
 The first line of the input file contains a single number: the number of test cases to follow. Each test case has the following format:
 
@@ -50,7 +50,7 @@ Output
 
 For every test case in the input file, the output should contain a single number, on a single line: the number of occurrences of the word W in the text T.
 
-###Sample Input
+### Sample Input
 
 ```
 3
@@ -62,16 +62,16 @@ VERDI
 AVERDXIVYERDIAN
 ```
 
-###Sample Output
+### Sample Output
 ```
 1
 3
 0
 ```
 
-##Problem3: [Travel Games](http://poj.org/problem?id=2138)
+## Problem3: [Travel Games](http://poj.org/problem?id=2138)
 ![Travel Games](Images/Travel_Games.png)
-###Description
+### Description
 
 The cows are taking a trip to the lakes in Minnesota. Like everyone else, they are bored and are playing "travel games" to pass the time away. 
 
@@ -88,7 +88,7 @@ Output
 A single line with the longest word that can be formed by extending the input seed. 
 The input ensure the correct result will be unique.
 
-###Sample Input
+### Sample Input
 ```
 9 cal
 cal
@@ -102,14 +102,14 @@ coal
 coral
 ```
 
-###Sample Output
+### Sample Output
 ```
 chorale
 ```
 
-##Program4: [Palindrome](http://poj.org/problem?id=1159)
+## Program4: [Palindrome](http://poj.org/problem?id=1159)
 ![Palindrome](Images/Palindrome.png)
-###Description
+### Description
 
 A palindrome is a symmetrical string, that is, a string read identically from left to right as well as from right to left. You are to write a program which, given a string, determines the minimal number of characters to be inserted into the string in order to obtain a palindrome. 
 
@@ -120,12 +120,12 @@ Your program is to read from standard input. The first line contains one integer
 Output
 
 Your program is to write to standard output. The first line contains one integer, which is the desired minimal number.
-###Sample Input
+### Sample Input
 ```
 5
 Ab3bd
 ```
-###Sample Output
+### Sample Output
 ```
 2
 ```
