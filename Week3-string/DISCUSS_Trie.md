@@ -382,7 +382,7 @@ Case 3: -1
 ### 思路
 DP+AC自动机。多串的匹配，自然先联系到AC自动机。其次也符合DP的最优子结构思想，难就难在DP状态的确定上面了。这里将AC自动机上每一个节点作为一个状态，则dp[i][j]表示自串为0~i，状态为自动机上j节点时最少改变的字符数。状态转移方程为：dp[i][son[j]]= min{ dp[i][son[j]], dp[i-1][j]+(tran[j][son[j]] != str[i] )}，其中tran[j][son[j]]表示有从j到son[j]经过的字母边。
 
-
+理解： 本题的搜索空间是4^N,也就是一个四个节点的搜索树，最暴力的方法是找出这颗搜索树中每一个从根到叶子节点且不存在致病基因，且代价最小的路径。明显的，4^N的搜索空间太大了，需要DP。DP的过程是一边枚举搜索树，一边更新AC自动机的状态(也就是AC自动机的匹配过程)。这里在某一个dp[i][j]状态更改代价后并不会影响后面的状态，因为带字符串到i位置，状态到j时，假设已经找到dp[i][j]的最小代价，下面的枚举从这个状态继续运行即可。无论通过何路径到达dp[i][j]，后面的枚举产生的新代价均不会对之前有任何影响，前面的代价也不会对后面有任何影响。
 ### CODE
 ```c++
 #include <string>
@@ -410,7 +410,7 @@ inline int getIdx(char c) {
 }
 
 struct Node {
-	int next [4];
+	int next[4];
 	int widx;
 	int fail;
 	Node() :fail(-1), widx(-1) {
@@ -470,6 +470,9 @@ void build_fail() {
 					v = nodes[v].fail;
 				}
 				nodes[u].fail = nodes[v].next[idx];
+				if (nodes[u].widx == -1 && nodes[nodes[u].fail].widx != -1) {
+					nodes[u].widx = nodes[nodes[u].fail].widx;
+				}
 				q.push(u);
 			}
 		}
@@ -478,9 +481,9 @@ void build_fail() {
 
 int Case;
 int N;
-char word [50][24];
-char dna [1005];
-int dp [1005] [1005];
+char word[50][24];
+char dna[1005];
+int dp[1005][1005];
 int text_len;
 int main() {
 	Case = 1;
@@ -509,21 +512,18 @@ int main() {
 
 		for (int idx = 1; idx <= text_len; idx++) {
 			for (int jdx = 0; jdx < global_idx; jdx++) {
-				if (dp[idx - 1][jdx] != inf && (nodes[jdx].widx == -1)) {
+				if (dp[idx - 1][jdx] != inf) {
 					for (int z = 0; z < 4; z++) {
-						int T = z != getIdx (dna[idx - 1]);
-						int u;
-						if (-1 == nodes[jdx].next[z]) {
-							int v = nodes[jdx].fail;
+						int T = z != getIdx(dna[idx - 1]);
+						int u, v = jdx;
+						if (-1 == nodes[v].next[z]) {
+							v = nodes[jdx].fail;
 							while (-1 == nodes[v].next[z]) {
 								v = nodes[v].fail;
 							}
-							u = nodes[v].next[z];
-						}
-						else {
-							u = nodes[jdx].next[z];
 						}
 
+						u = nodes[v].next[z];
 						if (nodes[u].widx != -1) {
 							continue;
 						}
@@ -535,7 +535,7 @@ int main() {
 
 		int ans = inf;
 		for (int idx = 0; idx < global_idx; idx++) {
-			ans = min(ans, dp [text_len] [idx]);
+			ans = min(ans, dp[text_len][idx]);
 		}
 
 		printf("Case %d: ", Case++);
