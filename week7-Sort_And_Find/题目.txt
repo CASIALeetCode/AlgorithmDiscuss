@@ -1,0 +1,5 @@
+这周线下题目：
+1.排序164	Maximum Gap(hard) https://leetcode.com/problems/maximum-gap/
+2.查找229	Majority Element II(medium)https://leetcode.com/problems/majority-element-ii/
+3.查找230	Kth Smallest Element in a BST（medium)  https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+4.查找41	First Missing Positive(hard)https://leetcode.com/problems/first-missing-positive/
