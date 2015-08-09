@@ -225,11 +225,9 @@
 				if(mat[f[i][j]] != c) win[i] = 0;
 		}
 	}
-	
 	int build_count(char c) {
 		return count(mat, mat + 9, c);
 	}
-	
 	bool next_win(char c) {
 		int win[8];
 		for(int i = 0; i < 9; ++i) if(mat[i] == '_') {
@@ -240,7 +238,6 @@
 		}
 		return false;
 	}
-	
 	int solve() {
 		int xcnt = build_count('X'), ocnt = build_count('O');
 		if(xcnt != ocnt && xcnt - 1 != ocnt) return puts("Invalid");
@@ -259,7 +256,6 @@
 		if(next_win(xcnt == ocnt ? 'X' : 'O')) return puts("Next win");
 		return puts("Next cannot win");
 	}
-	
 	int main() {
 		scanf("%d", &T);
 		while(T--) {
@@ -269,5 +265,8 @@
 			solve();
 		}
 	}
+	
+备注：
+后面两题代码来源 :[hihocoder 网易游戏2016实习生招聘在线笔试 解题报告](http://www.cnblogs.com/oyking/p/4404653.html)
 	
 
