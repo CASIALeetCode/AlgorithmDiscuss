@@ -6,7 +6,7 @@
 
 [Different Ways to Add Parentheses](https://leetcode.com/problems/different-ways-to-add-parentheses/)
 
-[Expression Add Operators](Expression Add Operators)
+[Expression Add Operators](https://leetcode.com/problems/expression-add-operators/)
 
 [Perfect Squares](https://leetcode.com/problems/perfect-squares/)
 
