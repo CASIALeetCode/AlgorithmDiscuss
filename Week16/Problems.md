@@ -504,44 +504,134 @@ xxx oox xxx xoo
 using namespace std;
 int N, M, L, K;
 struct Rectangle {
-	long long top, bottom, left, right;
-	long long area() {
-		return (bottom - top + 1) * (right - left + 1);
+	long long minY, maxY, minX, maxX;
+
+	Rectangle(long long minY_ = 0, long long maxY_ = 1, long long minX_ = 0, long long maxX_ = 1) {
+		minY = minY_; maxY = maxY_; minX = minX_; maxX = maxX_;
+	}
+
+	void set(long long minY_ = 0, long long maxY_ = 1, long long minX_ = 0, long long maxX_ = 1) {
+		minY = minY_; maxY = maxY_; minX = minX_; maxX = maxX_;
+	}
+
+	bool legal() const {
+		return minY <= maxY && minX <= maxX;
+	}
+
+	long long area() const {
+		return (maxY - minY + 1) * (maxX - minX + 1);
 	}
 
 	bool PointIn(long long x, long long y) const {
-		return x >= left && x <= right && y <= bottom && y >= top;
-	}	
+		return x >= minX && x <= maxX && y <= maxY && y >= minY;
+	}
 };
 
 bool Intersection(Rectangle const &rect1, Rectangle const &rect2) {
-	return rect1.PointIn(rect2.left, rect2.top)
-		|| rect2.PointIn(rect1.left, rect1.top)
-		|| rect1.PointIn(rect2.right, rect2.bottom)
-		|| rect2.PointIn(rect1.right, rect1.bottom)
-		|| rect1.PointIn(rect2.left, rect2.bottom)
-		|| rect2.PointIn(rect1.left, rect1.bottom)
-		|| rect1.PointIn(rect2.right, rect2.top)
-		|| rect2.PointIn(rect1.right, rect1.top);
+	return rect1.PointIn(rect2.minX, rect2.minY)
+		|| rect2.PointIn(rect1.minX, rect1.minY)
+		|| rect1.PointIn(rect2.maxX, rect2.maxY)
+		|| rect2.PointIn(rect1.maxX, rect1.maxY)
+		|| rect1.PointIn(rect2.minX, rect2.maxY)
+		|| rect2.PointIn(rect1.minX, rect1.maxY)
+		|| rect1.PointIn(rect2.maxX, rect2.minY)
+		|| rect2.PointIn(rect1.maxX, rect1.minY);
+}
+
+// rect2 in rect1?
+bool contain(Rectangle const &rect1, Rectangle const &rect2) {
+	return rect2.minY >= rect1.minY && rect2.maxY <= rect1.maxY && rect2.minX >= rect1.minX && rect2.maxX <= rect1.maxX;
 }
 
 Rectangle IntersectionRect(Rectangle const &rect1, Rectangle const &rect2) {
 	Rectangle res;
-	res.top = max(rect1.top, rect2.top);
-	res.bottom = min(rect1.bottom, rect2.bottom);
-	res.left = max(rect1.left, rect2.left);
-	res.right = min(rect1.right, rect2.right);
-		
+	res.minY = max(rect1.minY, rect2.minY);
+	res.maxY = min(rect1.maxY, rect2.maxY);
+	res.minX = max(rect1.minX, rect2.minX);
+	res.maxX = min(rect1.maxX, rect2.maxX);
+
 	return res;
 }
 
-vector<Rectangle> RectangeDiff(vector<Rectangle> rects, Rectangle one) {
+//A - B
+vector<Rectangle> RectangeDiff(Rectangle r, Rectangle s) {
+	vector<Rectangle> res, res1;
+	if (!Intersection(r, s)) {
+		res.push_back(r); 
+		return res;
+	}
 
+	if (contain(s, r)) {
+		return res;
+	}
+
+	long long a = min(r.minX, s.minX);
+	long long b = max(r.minX, s.minX);
+	long long c = min(r.maxX, s.maxX);
+	long long d = max(r.maxX, s.maxX);
+
+	long long e = min(r.minY, s.minY);
+	long long f = max(r.minY, s.minY);
+	long long g = min(r.maxY, s.maxY);
+	long long h = max(r.maxY, s.maxY);
+
+	// X = intersection, 0-7 = possible difference areas
+	// h +-+-+-+
+	// . |5|6|7|
+	// g +-+-+-+
+	// . |3|X|4|
+	// f +-+-+-+
+	// . |0|1|2|
+	// e +-+-+-+
+	// . a b c d
+	
+	// we'll always have rectangles 1, 3, 4 and 6
+	res.push_back(Rectangle(b, c, e, f - 1));
+	res.push_back(Rectangle(a, b - 1, f, g));
+	res.push_back(Rectangle(c + 1, d, f, g));
+	res.push_back(Rectangle(b, c, g + 1, h));
+
+	if (contain(r, s)) {
+		res.push_back(Rectangle(a, b, e, f - 1));
+		res.push_back(Rectangle(c, d, g + 1, h));
+		res.push_back(Rectangle(c + 1, d, e, f));
+		res.push_back(Rectangle(a, b - 1, g, h));
+	}
+	else {
+		// decide which corners
+		if (r.minX == a && r.minY == e || s.minX == a && s.minY == e)
+		{ // corners 0 and 7
+			res.push_back(Rectangle(a, b, e, f - 1));
+			res.push_back(Rectangle(c, d, g + 1, h));
+		}
+		else
+		{ // corners 2 and 5
+			res.push_back(Rectangle(c + 1, d, e, f));
+			res.push_back(Rectangle(a, b - 1, g, h));
+		}
+	}
+
+	for (auto v : res) {
+		if (v.legal()) {
+			res1.push_back(v);
+		}
+	}
+	return res1;
+}
+
+vector<Rectangle> RectangeDiff(vector<Rectangle> rects, Rectangle one) {
+	vector<Rectangle> res;
+	for (int idx = 0; idx < rects.size(); idx++) {
+		vector<Rectangle> subres = RectangeDiff(rects[idx], one);
+		for (int jdx = 0; jdx < subres.size(); jdx++) {
+			res.push_back(subres[jdx]);
+		}
+	}
+	return res;
 }
 
 int main() {
-
-	while(scanf("%d%d%d%d", &N, &M, &L, &K) != EOF){
+	while (scanf("%d%d%d%d", &N, &M, &L, &K) != EOF){
 		vector<Rectangle> rects;
 		vector<bool> good(L, true);
 		int rect_count = 0;
@@ -549,11 +639,11 @@ int main() {
 			int dx, dy;
 			scanf("%d%d", &dx, &dy);
 			Rectangle rect;
-			rect.left = max(0, -dx);
-			rect.right = min(M - 1, M - dx - 1);
-			rect.top = max(0, -dy);
-			rect.bottom = min(N - 1, N - dy - 1);
-			if (!(rect.left > rect.right || rect.bottom < rect.top)) {
+			rect.minX = max(0, -dx);
+			rect.maxX = min(N - 1, N - dx - 1);
+			rect.minY = max(0, -dy);
+			rect.maxY = min(M - 1, M - dy - 1);
+			if (!(rect.minX > rect.maxX || rect.maxY < rect.minY)) {
 				rect_count++;
 			}
 			else {
@@ -575,53 +665,31 @@ int main() {
 		do {
 			Rectangle inter;
 			long long area = 0;
-			inter.top = 0; inter.left = 0; inter.bottom = N - 1; inter.right = M - 1;
+			inter.minY = 0; inter.minX = 0; inter.maxY = M - 1; inter.maxX = N - 1;
 			for (int idx = 0; idx < L; idx++) {
 				if (flags[idx] == '0') continue;
-				if (!good[idx]) {
-					area = 0; break;					
-				}
-				
-				if (!Intersection(inter, rects[idx])) {
-					area = 0;
-					break;
-				}
+				if (!good[idx] || !Intersection(inter, rects[idx])) {
+					area = 0; break;
+				}				
 				Rectangle subrect = IntersectionRect(inter, rects[idx]);
 				area = subrect.area();
 				inter = subrect;
 			}
-			
+
 			if (!area) 	continue;
-			
-			bool failed = false;
+			vector<Rectangle> pieces = { inter };
 			for (int idx = 0; idx < L; idx++) {
-				if (flags[idx] == '0') {
-					if (Intersection(inter, rects[idx])) {
-						failed = true;
-						break;
-					}
-				}
+				if (flags[idx] == '1') continue;
+				pieces = RectangeDiff(pieces, rects[idx]);
 			}
-			if (!failed) {
-				inter_rects.push_back(inter);
+
+			for (auto rect : pieces) {
+				sum += rect.area();
 			}
+			
 		} while (next_permutation(flags, flags + L));
 
-
-
-		for (int idx = 0; idx < inter_rects.size();idx++) {
-			Rectangle cur = inter_rects[idx];
-			int curarea = (cur.right - cur.left + 1) * (cur.bottom - cur.top + 1);
-			int interarea;
-			for (int jdx = 0; jdx < inter_rects.size(); jdx++) {
-				if (jdx == idx) continue;
-				Rectangle subrect;
-				interarea = cur.IntersectionArea(inter_rects[jdx], subrect);
-				cur = subrect;
-			}
-			sum += curarea - interarea;
-		}		
-		cout << sum << endl;
+		cout << sum << endl;		
 	}
 	return 0;
 }
