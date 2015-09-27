@@ -612,7 +612,7 @@ vector<Rectangle> RectangeDiff(Rectangle r, Rectangle s) {
 	}
 
 	for (auto v : res) {
-		if (v.legal()) {
+		if (v.legal() && contain(r, v)) {
 			res1.push_back(v);
 		}
 	}
