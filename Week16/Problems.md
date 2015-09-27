@@ -15,7 +15,7 @@ What is the minimum candies you must give?
 example： 
 ```
               1 3 2 1 5 1
-left2right -> 1 1 1 1 2 1
+left2right -> 1 2 1 1 2 1
 right2left -> 1 3 2 1 2 1
 answer     -> 1 3 2 1 2 1
 ```
@@ -483,9 +483,13 @@ k-valid-position的数目
 
 样例输入
 3 3 4 2
+
 1 1
+
 1 -1
+
 -1 1
+
 -1 -1
 
 ```
